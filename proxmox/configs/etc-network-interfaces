@@ -16,6 +16,7 @@ iface lo inet loopback
 iface enp4s0 inet manual
 
 iface enp1s0 inet manual
+        mtu 9000
 
 auto enp4s0.105
 iface enp4s0.105 inet static
@@ -37,5 +38,6 @@ iface vmbr1 inet manual
         bridge-fd 0
         bridge-vlan-aware yes
         bridge-vids 3 100 105 107 150 200
+        mtu 9000
 
 source /etc/network/interfaces.d/*
