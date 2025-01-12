@@ -41,3 +41,15 @@
   systemctl status corosync
   pvecm status
   ```
+
+### Enable IOMMU
+- Enable IOMMU for PCIe passthrough, add `intel_iommu=on iommu=pt` to `GRUB_CMDLINE_LINUX_DEFAULT` line in `/etc/default/grub file`:
+  ```shell
+  GRUB_CMDLINE_LINUX_DEFAULT="quiet intel_iommu=on iommu=pt"
+  ```
+- Run `update-grub` and reboot host
+- Confirm IOMMU is enabled: `cat /proc/cmdline`:
+  ```shell
+  # cat /proc/cmdline
+  BOOT_IMAGE=/boot/vmlinuz-6.8.12-4-pve root=/dev/mapper/pve-root ro quiet intel_iommu=on iommu=pt
+  ```
