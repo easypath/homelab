@@ -37,7 +37,7 @@ iface vmbr1 inet manual
         bridge-stp off
         bridge-fd 0
         bridge-vlan-aware yes
-        bridge-vids 3 100 105 107 150 200
+        bridge-vids 3 100 105 107 109 150 200
         mtu 9000
 
 source /etc/network/interfaces.d/*
