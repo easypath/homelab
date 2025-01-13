@@ -1,8 +1,9 @@
-# Proxmox
+# Proxmox VE
 ### Initial config
 - Default address: [https://10.101.100.10:8006](https://10.101.100.10:8006)
 
 ### Host network config
+> *Refer to example file in `configs` subfolder*
 - Change host IP:
   - Edit `/etc/network/interfaces`
   - Edit `/etc/hosts`
@@ -14,6 +15,7 @@
   - Create new Linux bridge device, `vmbr1`, bound to VM interface (`enp1s0`)
   - Check "VLAN aware"
   - For VM, select `vmbr1` and add VLAN tag to network interface
+- Add interface for SAN traffic
 - *Note: when adding VLAN interfaces to host, configure VLAN on interface with least abstraction layers from physical NIC ([more info](https://pve.proxmox.com/wiki/Network_Configuration#sysadmin_network_vlan))*
 
 ### Enable host updates
@@ -40,16 +42,4 @@
   ```shell
   systemctl status corosync
   pvecm status
-  ```
-
-### Enable IOMMU
-- Enable IOMMU for PCIe passthrough, add `intel_iommu=on iommu=pt` to `GRUB_CMDLINE_LINUX_DEFAULT` line in `/etc/default/grub file`:
-  ```shell
-  GRUB_CMDLINE_LINUX_DEFAULT="quiet intel_iommu=on iommu=pt"
-  ```
-- Run `update-grub` and reboot host
-- Confirm IOMMU is enabled: `cat /proc/cmdline`:
-  ```shell
-  # cat /proc/cmdline
-  BOOT_IMAGE=/boot/vmlinuz-6.8.12-4-pve root=/dev/mapper/pve-root ro quiet intel_iommu=on iommu=pt
   ```
