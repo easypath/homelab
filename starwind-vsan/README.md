@@ -116,3 +116,15 @@ Need to [register](https://www.starwindsoftware.com/starwind-virtual-san#downloa
   - Add new LVM storage
   - Set volume group to new VG created in prior step
   - Enable Shared checkbox. Click Add
+
+### Passthrough physical disk to CVM
+> *Refer to the [following steps](https://pve.proxmox.com/wiki/Passthrough_Physical_Disk_to_Virtual_Machine_(VM))*
+- On the Proxmox VE host get ID of disk:
+  ```shell
+  # ls -al /dev/disk/by-id/
+  ata-ST8000VN004-3CP101_SN123456
+  ```
+- Add to CVM VM:
+  ```shell
+  qm set 103 -scsi2 /dev/disk/by-id/ata-ST8000VN004-3CP101_SN123456
+  ```
