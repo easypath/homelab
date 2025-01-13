@@ -40,4 +40,10 @@ iface vmbr1 inet manual
         bridge-vids 3 100 105 107 109 150 200
         mtu 9000
 
+auto vmbr1.107
+iface vmbr1.107 inet static
+        address 10.101.107.10/24
+        mtu 9000
+#san-sync
+
 source /etc/network/interfaces.d/*
