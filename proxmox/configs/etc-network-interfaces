@@ -42,7 +42,7 @@ iface vmbr1 inet manual
       bridge-stp off
       bridge-fd 0
       bridge-vlan-aware yes
-      bridge-vids 107 109 150 200
+      bridge-vids 3 107 109 150 200
       mtu 9000
 
 auto vmbr1.107

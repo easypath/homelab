@@ -11,11 +11,13 @@
 /interface bridge port add bridge=bridge1 ingress-filtering=yes frame-types=admit-only-vlan-tagged interface=ether1
 /interface bridge port add bridge=bridge1 ingress-filtering=yes frame-types=admit-only-vlan-tagged interface=sfp-sfpplus1
 /interface bridge port add bridge=bridge1 ingress-filtering=yes frame-types=admit-only-vlan-tagged interface=sfp-sfpplus2
+/interface bridge port add bridge=bridge1 ingress-filtering=yes frame-types=admit-only-untagged-and-priority-tagged interface=sfp-sfpplus8 pvid=3
 
 # Egress behaviour:
-/interface bridge vlan add bridge=bridge1 tagged=bridge1,ether1,sfp-sfpplus1,sfp-sfpplus2 vlan-ids=100,105,107,109,150,200
+/interface bridge vlan add bridge=bridge1 tagged=bridge1,ether1,sfp-sfpplus1,sfp-sfpplus2 untagged=sfp-sfpplus8 vlan-ids=3,100,105,107,109,150,200
 
 # Add VLANs:
+/interface vlan add interface=bridge1 name=wan vlan-id=3
 /interface vlan add interface=bridge1 name=mgmt vlan-id=100
 /interface vlan add interface=bridge1 name=pve-cluster-sync vlan-id=105
 /interface vlan add interface=bridge1 name=san-sync vlan-id=107
@@ -23,19 +25,19 @@
 /interface vlan add interface=bridge1 name=vm-public vlan-id=150
 /interface vlan add interface=bridge1 name=vm-private vlan-id=200
 
-# Add gateway IPs:
-/ip address add address=10.101.100.1/24 interface=mgmt
-/ip address add address=10.101.150.1/24 interface=vm-public
+# Add management IP:
+/ip address add address=10.101.100.2/24 interface=mgmt
 
-# Add WAN IP:
-/ip dhcp-client add interface=sfp-sfpplus8 disabled=no
+# Add static route for switch Internet access:
+/ip route add dst-address=0.0.0.0/0 gateway=10.101.100.1
+
+# Add switch DNS server:
+/ip dns set servers=192.168.2.1
 
 # Add interfaces to lists
-/interface list add name=WAN
 /interface list add name=MGMT
 /interface list add name=VLAN
 
-/interface list member add list=WAN interface=sfp-sfpplus8
 /interface list member add list=MGMT interface=mgmt
 /interface list member add list=VLAN interface=mgmt
 /interface list member add list=VLAN interface=pve-cluster-sync
@@ -44,7 +46,7 @@
 /interface list member add list=VLAN interface=vm-public
 /interface list member add list=VLAN interface=vm-private
 
-# Firewall and NAT
+# Firewall
 /ip firewall filter
 # Input chain
 add chain=input action=accept connection-state=established,related
@@ -54,11 +56,7 @@ add chain=input action=drop
 # Forward chain
 add action=fasttrack-connection chain=forward connection-state=established,related hw-offload=yes
 add chain=forward action=accept connection-state=established,related
-add chain=forward action=accept connection-state=new in-interface-list=VLAN out-interface-list=WAN
 add chain=forward action=drop
-
-# NAT
-/ip firewall nat add chain=srcnat action=masquerade out-interface-list=WAN
 
 # Enable VLAN filtering:
 /interface bridge set bridge1 vlan-filtering=yes
