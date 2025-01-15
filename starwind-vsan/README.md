@@ -51,7 +51,7 @@ Need to [register](https://www.starwindsoftware.com/starwind-virtual-san#downloa
 ## Proxmox VE host iSCSI config
 - Install following on each Proxmox VE host:
   ```shell
-  apt-get install -y multipath-tools
+  apt-get install -y multipath-tools lsscsi
   ```
 - Update iSCSI initiator name to match hostname:
   ```shell
@@ -67,15 +67,14 @@ Need to [register](https://www.starwindsoftware.com/starwind-virtual-san#downloa
   ```
 - Login to iSCSI targets:
   ```shell
-  iscsiadm -m node -T iqn.2008-08.com.starwindsoftware:10.101.100.5-lun0 -p 10.101.107.5 -l
-  iscsiadm -m node -T iqn.2008-08.com.starwindsoftware:10.101.100.6-lun0 -p 10.101.107.6 -l
+  iscsiadm -m node -T iqn.2008-08.com.starwindsoftware:10.101.100.5-vm-nvme-01 -p 10.101.107.5 -l
+  iscsiadm -m node -T iqn.2008-08.com.starwindsoftware:10.101.100.6-vm-nvme-01 -p 10.101.107.6 -l
   ```
 - Determine device ID of LUN, should show twice as mapped from two hosts:
   ```shell
-  # lsblk
-  NAME                         MAJ:MIN RM   SIZE RO TYPE MOUNTPOINTS
-  sdc                            8:32   0 924.5G  0 disk
-  sdd                            8:48   0 924.5G  0 disk
+  # lsscsi
+  [8:0:0:0]    disk    STARWIND STARWIND         1     /dev/sdc 
+  [9:0:0:0]    disk    STARWIND STARWIND         1     /dev/sdd 
   ```
 - Get WWID of LUN:
   ```shell
@@ -112,7 +111,7 @@ Need to [register](https://www.starwindsoftware.com/starwind-virtual-san#downloa
 - Create PV and VG:
   ```shell
   pvcreate /dev/mapper/mpatha
-  vgcreate vg-nvme /dev/mapper/mpatha
+  vgcreate vg-nvme-01 /dev/mapper/mpatha
   ```
 - Login to Proxmox via Web and go to Datacenter > Storage:
   - Add new LVM storage
