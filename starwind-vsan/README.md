@@ -36,6 +36,7 @@ Need to [register](https://www.starwindsoftware.com/starwind-virtual-san#downloa
 - Configure network interfaces for *Data* and *Replication*:
   - Set all to automatically connect on boot
   - Set MTU 9000 for both
+- Enable SSH server autostart, start service via GUI (Settings > Services)
 - Repeat above steps for partner appliance
 - Configure HA networking
 - Create Storage Pool > Volume > LUN
