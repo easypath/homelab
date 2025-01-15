@@ -58,6 +58,7 @@ Need to [register](https://www.starwindsoftware.com/starwind-virtual-san#downloa
   InitiatorName=iqn.1993-08.org.debian:pve-prod-a-01
   ```
 - Edit `/etc/iscsi/iscsid.conf`, replace with config file in `configs` subfolder
+- Create `/etc/multipath.conf` file with contents in `configs` subfolder 
 - Run discovery:
   ```shell
   iscsiadm -m discovery -t st -p 10.101.107.5
