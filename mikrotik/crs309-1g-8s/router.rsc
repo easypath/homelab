@@ -71,7 +71,7 @@ add chain=forward action=drop
 /interface ethernet set [ find default-name=sfp-sfpplus5 ] rx-flow-control=on tx-flow-control=on
 /interface ethernet set [ find default-name=sfp-sfpplus6 ] rx-flow-control=on tx-flow-control=on
 /interface ethernet set [ find default-name=sfp-sfpplus7 ] rx-flow-control=on tx-flow-control=on
-/interface ethernet set [ find default-name=sfp-sfpplus8 ] rx-flow-control=on tx-flow-control=on
+/interface ethernet set [ find default-name=sfp-sfpplus8 ] l2mtu=10218 mtu=10218 rx-flow-control=on tx-flow-control=on
 
 # Enable L3 hardware offloading:
 /interface/ethernet/switch/port set ether1 l3-hw-offloading=no
