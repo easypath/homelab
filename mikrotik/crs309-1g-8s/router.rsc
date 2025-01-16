@@ -11,10 +11,11 @@
 /interface bridge port add bridge=bridge1 ingress-filtering=yes frame-types=admit-only-vlan-tagged interface=ether1
 /interface bridge port add bridge=bridge1 ingress-filtering=yes frame-types=admit-only-vlan-tagged interface=sfp-sfpplus1
 /interface bridge port add bridge=bridge1 ingress-filtering=yes frame-types=admit-only-vlan-tagged interface=sfp-sfpplus2
+/interface bridge port add bridge=bridge1 ingress-filtering=yes frame-types=admit-only-vlan-tagged interface=sfp-sfpplus3
 /interface bridge port add bridge=bridge1 ingress-filtering=yes frame-types=admit-only-untagged-and-priority-tagged interface=sfp-sfpplus8 pvid=3
 
 # Egress behaviour:
-/interface bridge vlan add bridge=bridge1 tagged=bridge1,ether1,sfp-sfpplus1,sfp-sfpplus2 untagged=sfp-sfpplus8 vlan-ids=3,100,105,107,109,150,200
+/interface bridge vlan add bridge=bridge1 tagged=bridge1,ether1,sfp-sfpplus1,sfp-sfpplus2,sfp-sfpplus3 untagged=sfp-sfpplus8 vlan-ids=3,100,105,107,109,150,200
 
 # Add VLANs:
 /interface vlan add interface=bridge1 name=wan vlan-id=3
@@ -65,7 +66,7 @@ add chain=forward action=drop
 /interface ethernet set [ find default-name=ether1 ] l2mtu=10218 mtu=10218 rx-flow-control=on tx-flow-control=on
 /interface ethernet set [ find default-name=sfp-sfpplus1 ] l2mtu=10218 mtu=10218 rx-flow-control=on tx-flow-control=on
 /interface ethernet set [ find default-name=sfp-sfpplus2 ] l2mtu=10218 mtu=10218 rx-flow-control=on tx-flow-control=on
-/interface ethernet set [ find default-name=sfp-sfpplus3 ] rx-flow-control=on tx-flow-control=on
+/interface ethernet set [ find default-name=sfp-sfpplus3 ] l2mtu=10218 mtu=10218 rx-flow-control=on tx-flow-control=on
 /interface ethernet set [ find default-name=sfp-sfpplus4 ] rx-flow-control=on tx-flow-control=on
 /interface ethernet set [ find default-name=sfp-sfpplus5 ] rx-flow-control=on tx-flow-control=on
 /interface ethernet set [ find default-name=sfp-sfpplus6 ] rx-flow-control=on tx-flow-control=on
