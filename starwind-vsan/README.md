@@ -65,10 +65,9 @@ Need to [register](https://www.starwindsoftware.com/starwind-virtual-san#downloa
   iscsiadm -m discovery -t st -p 10.101.107.5
   iscsiadm -m discovery -t st -p 10.101.107.6
   ```
-- Login to iSCSI targets:
+- Login to all iSCSI targets:
   ```shell
-  iscsiadm -m node -T iqn.2008-08.com.starwindsoftware:10.101.100.5-vm-nvme-01 -p 10.101.107.5 -l
-  iscsiadm -m node -T iqn.2008-08.com.starwindsoftware:10.101.100.6-vm-nvme-01 -p 10.101.107.6 -l
+  iscsiadm -m node -l
   ```
 - Determine device ID of LUN, should show twice as mapped from two hosts:
   ```shell
@@ -108,6 +107,25 @@ Need to [register](https://www.starwindsoftware.com/starwind-virtual-san#downloa
   ```shell
   pvscan --cache
   ```
+- Add the following systemd service:
+  ```shell
+  cat > /etc/systemd/system/iscsi-login.service <<EOL
+  [Unit]
+  Description=Login to all iSCSI targets after network is up
+  After=network.target
+
+  [Service]
+  Type=oneshot
+  ExecStart=/bin/sh -c 'iscsiadm -m node -l'
+
+  [Install]
+  WantedBy=multi-user.target 
+  EOL
+
+  systemctl daemon-reload
+  systemctl enable iscsi-login
+  ```
+  - Resolves issue where iSCSI multipath paths are missing after reboot
 - Repeat above steps for each Proxmox VE host
 
 ### PV and VG creation
