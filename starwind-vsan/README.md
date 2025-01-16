@@ -100,6 +100,10 @@ Need to [register](https://www.starwindsoftware.com/starwind-virtual-san#downloa
     |- 8:0:0:0 sdc 8:32 active ready running
     `- 9:0:0:0 sdd 8:48 active ready running
   ```
+- Set iSCSI client to start on boot:
+  ```shell
+  systemctl enable open-iscsi
+  ```
 - Run following:
   ```shell
   pvscan --cache
