@@ -37,3 +37,8 @@
   systemctl status corosync
   pvecm status
   ```
+- Navigate to Datacenter > Options > HA Settings, change shutdown policy to `migrate`
+- Configure HA groups and add resources
+
+### References
+- [Proxmox VE How To Setup High Availability](https://youtu.be/hWNm4hYejqU?si=PkmhRwICdRrTjhGy)
