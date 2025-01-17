@@ -21,6 +21,12 @@
   ```
 - Set timezone to UTC
 
+### NTP
+- Enable local NTP server:
+  - Navigate to *System > Settings*, check *Setup device as local NTP server*
+  - Select interfaces to listen on
+- Enable NTP on all DHCP servers
+
 ### References
 - [Deploying a FortiGate-VM into Proxmox](https://docs.fortinet.com/document/fortigate-private-cloud/7.6.0/proxmox-administration-guide/37920)
 - [Virtualizing Fortigate firewall on Proxmox](https://www.youtube.com/watch?v=nY7CVtsTLro)

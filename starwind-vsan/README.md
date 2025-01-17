@@ -41,6 +41,16 @@ Need to [register](https://www.starwindsoftware.com/starwind-virtual-san#downloa
 - Configure HA networking
 - Create Storage Pool > Volume > LUN
 
+#### Additional config:
+- SSH into appliance and run:
+  ```shell
+  sudo apt-get install -y qemu-guest-agent && \
+  sudo /bin/sh -c "echo 'NTP=10.101.100.1' >> /etc/systemd/timesyncd.conf" && \
+  sudo timedatectl set-ntp true && \
+  sudo timedatectl timesync-status
+  ```
+- Reboot appliance
+
 ### Witness node
 - If want to deploy *Node majority* failover strategy, need an odd number of CVM nodes (minimum 3); required to prevent "split-brain" situations
   - Safer than *Heartbeat* failover, which only needs 2 nodes
