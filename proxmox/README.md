@@ -40,5 +40,12 @@
 - Navigate to Datacenter > Options > HA Settings, change shutdown policy to `migrate`
 - Configure HA groups and add resources
 
+### NTP config
+- Configure local NTP server:
+  ```shell
+  echo 'server 10.101.100.1 iburst' > /etc/chrony/sources.d/local-ntp-server.sources
+  chronyc reload sources
+  ```
+
 ### References
 - [Proxmox VE How To Setup High Availability](https://youtu.be/hWNm4hYejqU?si=PkmhRwICdRrTjhGy)

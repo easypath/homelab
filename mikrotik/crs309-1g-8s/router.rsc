@@ -4,6 +4,10 @@
 # Set hostname:
 /system identity set name=sw-prod-a-01
 
+# Set NTP server
+/system ntp client set enabled=yes
+/system ntp client servers add address=10.101.100.1
+
 # Add bridge:
 /interface bridge add name=bridge1
 
